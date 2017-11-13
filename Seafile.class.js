@@ -613,8 +613,7 @@ class Seafile {
             formData: {
               file: fs.createReadStream(src_file),
               filename: path.basename(src_file),
-              target_file: target_file,
-              parent_dir: p
+              target_file: (p.slice(-1) == '/' ? p : p+'/') + target_file
             },
             headers: { Authorization: util.format('Token %s',this.token) }
           });
