@@ -614,7 +614,7 @@ class Seafile {
               file: fs.createReadStream(src_file),
               filename: path.basename(src_file),
               target_file: target_file,
-              parent_dir: '/'
+              parent_dir: p
             },
             headers: { Authorization: util.format('Token %s',this.token) }
           });
