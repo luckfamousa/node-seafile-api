@@ -7,6 +7,14 @@ const path         = require('path');
 const querystring  = require('querystring');
 const fs           = require('fs-extra');
 
+// fixing Unicode equivalence Issues
+// see: https://en.wikipedia.org/wiki/Unicode_equivalence
+// see: https://stackoverflow.com/questions/30127280/javascript-encodeuri-vs-php-rawurldecode-and-special-characters
+// see: https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/String/normalize
+querystring.escape = function(str) {
+  return encodeURIComponent((""+str).normalize());
+};
+
 class Seafile {
 
   constructor(uri, token) {
