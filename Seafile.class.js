@@ -577,16 +577,16 @@ class Seafile {
   }
 
   // https://manual.seafile.com/develop/web_api.html#upload-file
-  uploadFile(repoId, p='/', src_file) {
+  uploadFile(repoId, src_file, target_file) {
     return new Promise((resolve, reject) => {
-      this.getUploadLink(repoId, p)
+      this.getUploadLink(repoId, path.dirname(target_file))
         .then(res => { 
           rp({
             method: 'POST', uri: res.substr(1,res.length-2),
             formData: {
               file: fs.createReadStream(src_file),
-              filename: path.basename(src_file),
-              parent_dir: p
+              filename: path.basename(target_file),
+              parent_dir: path.dirname(target_file)
             },
             headers: { Authorization: util.format('Token %s',this.token) }
           })
@@ -612,16 +612,16 @@ class Seafile {
   }
 
   // https://manual.seafile.com/develop/web_api.html#update-file
-  updateFile(repoId, p='/', src_file, target_file) {
+  updateFile(repoId, src_file, target_file) {
     return new Promise((resolve, reject) => {
-      this.getUpdateLink(repoId, p)
+      this.getUpdateLink(repoId, path.dirname(target_file))
         .then(res => { 
           return rp({
             method: 'POST', uri: res.substr(1,res.length-2),
             formData: {
               file: fs.createReadStream(src_file),
               filename: path.basename(src_file),
-              target_file: (p.slice(-1) == '/' ? p : p+'/') + target_file
+              target_file: target_file
             },
             headers: { Authorization: util.format('Token %s',this.token) }
           });
@@ -632,6 +632,24 @@ class Seafile {
         .catch(err => {
           reject(err);
         });
+    });
+  }
+
+  uploadOverwriteFile(repoId, src_file, target_file) {
+    return new Promise((resolve, reject) => {
+      this.updateFile(repoId, src_file, target_file)
+        .then(res => {
+          resolve(res);
+        })
+        .catch(err => {
+          this.uploadFile(repoId, src_file, target_file)
+            .then(res => {
+              resolve(res);
+            })
+            .catch(err => {
+              reject(err);
+            })
+        })
     });
   }
 
