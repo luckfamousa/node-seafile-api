@@ -15,7 +15,7 @@ sf.getServerInformation()
 
 sf.getDefaultLibrary()
   .then(res => {
-    return sf.uploadFile(JSON.parse(res).repo_id, p='/', '/some/directory/on/my/machine/funny.jpg');
+    return sf.uploadOverwriteFile(JSON.parse(res).repo_id, '/some/directory/on/my/machine/funny.jpg', '/some/directory/in/my/seafile/lib/funny.jpg');
   })
   .then(res => {
     console.log('File upload was successful.');
