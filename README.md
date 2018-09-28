@@ -2,7 +2,7 @@ Usage example:
 
 ````javascript
 const Seafile = require('./Seafile.class.js');
-const sf = new Seafile('https://cloud.uk-essen.de', '<mysecrettoken>');
+const sf = new Seafile('https://seafile.myserver.com', '<mysecrettoken>');
 
 sf.getServerInformation()
   .then(res => {
