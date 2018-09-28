@@ -1,3 +1,7 @@
+Implements the Seafile Web API with Promises for Node.js.  
+https://manual.seafile.com/develop/web_api.html  
+Only a subset of API calls was tested. **Use with caution!**  
+
 Usage example:
 
 ````javascript
