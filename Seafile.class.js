@@ -620,7 +620,7 @@ class Seafile {
             method: 'POST', uri: res.substr(1,res.length-2),
             formData: {
               file: fs.createReadStream(src_file),
-              filename: path.basename(src_file),
+              filename: path.basename(target_file),
               target_file: target_file
             },
             headers: { Authorization: util.format('Token %s',this.token) }
